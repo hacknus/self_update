@@ -393,13 +393,12 @@ impl<'a> Extract<'a> {
                         .file_name()
                         .ok_or_else(|| Error::Update("Extractor source has no file-name".into()))?;
                     let mut out_path = into_dir.join(file_name);
-                    out_path.set_extension(""); // Remove any extension
+                    out_path.set_extension("");
                     let mut out_file = fs::File::create(&out_path)?;
                     io::copy(&mut reader, &mut out_file)?;
                 }
                 #[cfg(feature = "archive-tar")]
                 ArchiveKind::Tar(_) => {
-                    debug!("Extracting tar archive");
                     let mut archive = tar::Archive::new(reader);
                     archive.unpack(into_dir)?;
                 }
@@ -423,8 +422,6 @@ impl<'a> Extract<'a> {
             }
             #[cfg(feature = "archive-zip")]
             ArchiveKind::Zip => {
-                debug!("Extracting zip archive");
-
                 let mut archive = zip::ZipArchive::new(source)?;
                 for i in 0..archive.len() {
                     let mut file = archive.by_index(i)?;
