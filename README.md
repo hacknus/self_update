@@ -126,7 +126,10 @@ fn update() -> Result<(), Box<dyn std::error::Error>> {
 ```
 
 In case the application has been packaged as a bundle (using `cargo bundle` e.g. on macOS as `Application.app`), the following example can be used:
-
+Note that for zipped releases, the deflate feature is required:
+```toml
+features = ["archive-zip", "compression-zip-deflate"]
+```
 ```rust
 const MACOS_APP_NAME: &str = "Application.app";
 
